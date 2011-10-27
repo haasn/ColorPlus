@@ -9,38 +9,27 @@ type CurveProvider interface {
 }
 
 // Some built-in curve types
-type purePowerCurve struct {
-    gamma float64
+type PurePowerCurve struct {
+    Gamma float64
 }
 
-type sRGBCurve struct {}
+type SRGBCurve struct {}
 
-type lStarCurve struct {
-    mode LStarMode
+type LStarCurve struct {
+    Mode LStarMode
 }
-
-// Generator functions / variables
-func PurePowerCurve(gamma float64) CurveProvider {
-    return purePowerCurve{gamma}
-}
-
-var (
-    SRGBCurve CurveProvider = sRGBCurve{}
-    LStarActual CurveProvider = lStarCurve{lStarActual}
-    LStarIntent CurveProvider = lStarCurve{lStarIntent}
-)
 
 // L* mode determines whether to follow the intent of the CIE Standard, or its written value
 type LStarMode bool
 
 const (
-    lStarActual LStarMode = true
-    lStarIntent LStarMode = false
+    LStarActual LStarMode = true
+    LStarIntent LStarMode = false
 )
 
 // Implementations
-func (ppc purePowerCurve) GetEncoder() FilterSingle {
-    gp := 1.0 / ppc.gamma
+func (ppc PurePowerCurve) GetEncoder() FilterSingle {
+    gp := 1.0 / ppc.Gamma
     return func(in float64) float64 {
         if (in > 0) {
             return math.Pow(in, gp)
@@ -49,17 +38,17 @@ func (ppc purePowerCurve) GetEncoder() FilterSingle {
     }
 }
 
-func (ppc purePowerCurve) GetDecoder() FilterSingle {
+func (ppc PurePowerCurve) GetDecoder() FilterSingle {
     return func(in float64) float64 {
         if (in > 0) {
-            return math.Pow(in, ppc.gamma)
+            return math.Pow(in, ppc.Gamma)
         }
         return 0
     }
 }
 
 // sRGB curve is a two-part curve with a linear segment for blacks
-func (_ sRGBCurve) GetEncoder() FilterSingle {
+func (_ SRGBCurve) GetEncoder() FilterSingle {
     return func(in float64) float64 {
         if (in > 0.0031308) {
             return math.Pow(in, 1 / 2.4) * 1.055 - 0.055
@@ -68,7 +57,7 @@ func (_ sRGBCurve) GetEncoder() FilterSingle {
     }
 }
 
-func (_ sRGBCurve) GetDecoder() FilterSingle {
+func (_ SRGBCurve) GetDecoder() FilterSingle {
     return func(in float64) float64 {
         if (in > 0.04045) {
             return math.Pow((in + 0.055) / 1.055, 2.4)
@@ -78,7 +67,7 @@ func (_ sRGBCurve) GetDecoder() FilterSingle {
 }
 
 // L* Curve is the curve used for most broadcasting systems
-func (ls lStarCurve) GetEncoder() FilterSingle {
+func (ls LStarCurve) GetEncoder() FilterSingle {
     E, K := ls.params()
 
     return func(in float64) float64 {
@@ -89,7 +78,7 @@ func (ls lStarCurve) GetEncoder() FilterSingle {
     }
 }
 
-func (ls lStarCurve) GetDecoder() FilterSingle {
+func (ls LStarCurve) GetDecoder() FilterSingle {
     E, K := ls.params()
     crossover := E * K / 100.0
 
@@ -101,8 +90,8 @@ func (ls lStarCurve) GetDecoder() FilterSingle {
     }
 }
 
-func (ls lStarCurve) params() (E, K float64) {
-    if (ls.mode == lStarActual) {
+func (ls LStarCurve) params() (E, K float64) {
+    if (ls.Mode == LStarActual) {
         E, K = 0.008856, 903.3
     } else {
         E, K = 216.0 / 24389.0, 24389.0 / 27.0

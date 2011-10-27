@@ -26,10 +26,10 @@ var tests = []testPair{
     testPair{namedFilter{Multiplex(Invert, Identity, Invert), "Multiplex(Invert, Identity, Invert)"}, XYZ{0.2, 0.4, 0.4}, XYZ{0.8, 0.4, 0.6}},
 
     // Gamma transfer functions
-    testPair{namedFilter{PurePowerCurve(2.2).GetDecoder(), "PurePowerCurve(2.2).GetDecoder()"},
+    testPair{namedFilter{PurePowerCurve{2.2}.GetDecoder(), "PurePowerCurve{2.2}.GetDecoder()"},
         XYZ{0.2, 0, -1}, XYZ{0.028991, 0, 0}},
     
-    testPair{namedFilter{PurePowerCurve(2.2).GetEncoder(), "PurePowerCurve(2.2).GetEncoder()"},
+    testPair{namedFilter{PurePowerCurve{2.2}.GetEncoder(), "PurePowerCurve{2.2}.GetEncoder()"},
         XYZ{0.2, 0, -1}, XYZ{0.481156, 0, 0}},
 
     // sRGB
@@ -37,7 +37,7 @@ var tests = []testPair{
     testPair{nSRGBDec, XYZ{0.01292, 0.735356, -12.92}, XYZ{0.001, 0.5, -1}},
 
     // Round trip 1
-    testPair{namedFilter{Chain(Identity, Invert, Invert, LStarActual.GetEncoder(), LStarActual.GetDecoder()), "RoundTrip1"},
+    testPair{namedFilter{Chain(Identity, Invert, Invert, nLStarEnc.filter, nLStarDec.filter),"RoundTrip1"},
         XYZ{0.2, 0.5, 0.8}, XYZ{0.2, 0.5, 0.8}},
     
     // Clamp and scale
