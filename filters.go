@@ -13,14 +13,14 @@ type FilterSingleProvider interface {
 }
 
 // Two filters chained together
-type filterTripleChain []FilterTripleProvider
+type filterTripleChain []interface{} // can be triple or single
 type filterSingleChain []FilterSingleProvider
 type filterMultiplex struct {
     a, b, c FilterSingleProvider
 }
 
 // Function to concatenate filters together
-func Chain(list ...FilterTripleProvider) (FilterTripleProvider) {
+func Chain(list ...interface{}) (FilterTripleProvider) {
     return filterTripleChain(list)
 }
 
@@ -38,7 +38,10 @@ func (ftc filterTripleChain) GetTriple() FilterTriple {
     cache := make([]FilterTriple, len(ftc))
 
     for i,f := range ftc {
-        cache[i] = f.GetTriple()
+        switch x := f.(type) {
+            case FilterTripleProvider: cache[i] = x.GetTriple()
+            case FilterSingleProvider: cache[i] = x.GetSingle().GetTriple()
+        }
     }
 
     return func(in Triple) Triple {

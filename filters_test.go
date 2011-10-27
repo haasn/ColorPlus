@@ -35,6 +35,10 @@ var tests = []testPair{
     // sRGB
     testPair{nSRGBEnc, XYZ{0.001, 0.5, -1}, XYZ{0.01292, 0.735356, -12.92}},
     testPair{nSRGBDec, XYZ{0.01292, 0.735356, -12.92}, XYZ{0.001, 0.5, -1}},
+
+    // Round trip 1
+    testPair{namedFilter{Chain(Identity, Invert, Invert, LStarActual.GetEncoder(), LStarActual.GetDecoder()), "RoundTrip1"},
+        XYZ{0.2, 0.5, 0.8}, XYZ{0.2, 0.5, 0.8}},
 }
 
 func TestFilters(t *testing.T) {
