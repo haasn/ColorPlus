@@ -25,4 +25,6 @@ var (
     nInvert = namedFilter{Invert, "Invert"}
     nXYZtoYxy = namedFilter{XYZtoYxy, "XYZtoYxy"}
     nYxytoXYZ = namedFilter{YxytoXYZ, "YxytoXYZ"}
+    nSRGBEnc = namedFilter{SRGBCurve.GetEncoder(), "SRGBCurve.GetEncoder()"}
+    nSRGBDec = namedFilter{SRGBCurve.GetDecoder(), "SRGBCurve.GetDecoder()"}
 )
