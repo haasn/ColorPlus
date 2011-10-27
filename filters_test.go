@@ -21,6 +21,9 @@ var tests = []testPair{
     testPair{nXYZtoYxy, XYZ{0.2, 0.4, 0.8}, Yxy{0.4, 0.14286, 0.28571}},
     testPair{nXYZtoYxy, XYZ{1, 1, 1}, Yxy{1, 1.0 / 3, 1.0 / 3}},
     testPair{nYxytoXYZ, Yxy{1, 0.3127, 0.3290}, XYZ{0.950455, 1, 1.089057}},
+
+    // Multiplexing
+    testPair{namedFilter{Multiplex(Invert, Identity, Invert), "Multiplex(Invert, Identity, Invert)"}, XYZ{0.2, 0.4, 0.4}, XYZ{0.8, 0.4, 0.6}},
 }
 
 func TestFilters(t *testing.T) {

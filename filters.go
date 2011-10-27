@@ -15,6 +15,9 @@ type FilterSingleProvider interface {
 // Two filters chained together
 type filterTripleChain []FilterTripleProvider
 type filterSingleChain []FilterSingleProvider
+type filterMultiplex struct {
+    a, b, c FilterSingleProvider
+}
 
 // Function to concatenate filters together
 func Chain(list ...FilterTripleProvider) (FilterTripleProvider) {
@@ -23,6 +26,11 @@ func Chain(list ...FilterTripleProvider) (FilterTripleProvider) {
 
 func ChainSingle(list ...FilterSingleProvider) (FilterSingleProvider) {
     return filterSingleChain(list)
+}
+
+// Multiplex function to apply single filters to each channel of a triple
+func Multiplex(a, b, c FilterSingleProvider) (FilterTripleProvider) {
+    return filterMultiplex{a, b, c}
 }
 
 // Filter provider implementation for filter chains
@@ -53,6 +61,16 @@ func (fsc filterSingleChain) GetSingle() FilterSingle {
             in = v(in)
         }
         return in
+    }
+}
+
+// Filter provider implementation for multiplex
+func (fm filterMultiplex) GetTriple() FilterTriple {
+    fa, fb, fc := fm.a.GetSingle(), fm.b.GetSingle(), fm.c.GetSingle()
+
+    return func(in Triple) Triple {
+        a, b, c := in.Get()
+        return in.Make(fa(a), fb(b), fc(c))
     }
 }
 
