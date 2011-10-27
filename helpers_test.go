@@ -16,7 +16,7 @@ const allow = 0.00001
 
 // interface to encapsulate named filters
 type namedFilter struct {
-    filter FilterTripleProvider
+    filter interface{}
     name string
 }
 

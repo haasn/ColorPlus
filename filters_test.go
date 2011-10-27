@@ -39,11 +39,15 @@ var tests = []testPair{
     // Round trip 1
     testPair{namedFilter{Chain(Identity, Invert, Invert, LStarActual.GetEncoder(), LStarActual.GetDecoder()), "RoundTrip1"},
         XYZ{0.2, 0.5, 0.8}, XYZ{0.2, 0.5, 0.8}},
+    
+    // Clamp and scale
+    testPair{namedFilter{Clamp{0, 1}, "Clamp{0, 1}"}, XYZ{-2, 0.3, 1.5}, XYZ{0, 0.3, 1}},
+    testPair{namedFilter{Scale{0.2, 0.8}, "Scale{0.2, 0.8}"}, XYZ{0, 1, 0.5}, XYZ{0.2, 0.8, 0.5}},
 }
 
 func TestFilters(t *testing.T) {
     for _, tp := range tests {
-        res := tp.nfilter.filter.GetTriple()(tp.input)
+        res := Chain(tp.nfilter.filter).GetTriple()(tp.input) // re-using Chain() for the type assertion logic
 
         if (!FuzzyCompare(res, tp.output, allow)) {
             t.Errorf("%s(%v) = %v, want %v.", tp.nfilter.name, tp.input, res, tp.output)
