@@ -1,0 +1,10 @@
+Overview
+
+colorplus is a color management library with emphasis on dynamic filter creation and precaching.
+
+Building & Installation
+
+It is recommended to use ‘gb’ to build. For more information, see https://code.google.com/p/go-gb/
+To build with ‘gb’, simply enter the root directory and run ‘gb’. To install the package, run ‘gb -i’
+
+A default test suite can be accessed by running ‘gb -t’
