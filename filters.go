@@ -41,6 +41,7 @@ func (ftc filterTripleChain) GetTriple() FilterTriple {
         switch x := f.(type) {
             case FilterTripleProvider: cache[i] = x.GetTriple()
             case FilterSingleProvider: cache[i] = x.GetSingle().GetTriple()
+            default: panic("Not a valid filter provider!")
         }
     }
 
