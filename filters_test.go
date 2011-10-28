@@ -43,6 +43,9 @@ var tests = []testPair{
     // Clamp and scale
     testPair{namedFilter{Clamp{0, 1}, "Clamp{0, 1}"}, XYZ{-2, 0.3, 1.5}, XYZ{0, 0.3, 1}},
     testPair{namedFilter{Scale{0.2, 0.8}, "Scale{0.2, 0.8}"}, XYZ{0, 1, 0.5}, XYZ{0.2, 0.8, 0.5}},
+
+    // Swap
+    testPair{namedFilter{Swap{AB, BC}, "Swap{AB, BC}"}, XYZ{0.2, 0.4, 0.8}, XYZ{0.4, 0.8, 0.2}},
 }
 
 func TestFilters(t *testing.T) {
