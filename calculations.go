@@ -1,7 +1,5 @@
 package colorplus
 
-import "math"
-
 // Determine the luminance (brightness) of a color triple
 func Luminance(in Triple) float64 {
     switch x := in.(type) {
@@ -18,9 +16,9 @@ func FromTemperature(T float64) Yxy {
     var x float64
 
     if (4000 <= T && T <= 7000) {
-        x = -4.6070E9 / math.Pow(T, 3) + 2.9678E6 / math.Pow(T, 2) + 9.911E1 / T + 0.244063
+        x = -4.6070E9 / (T*T*T) + 2.9678E6 / (T*T) + 9.911E1 / T + 0.244063
     } else if (7000 < T && T <= 25000) {
-        x = -2.0064E9 / math.Pow(T, 3) + 1.9018E6 / math.Pow(T, 2) + 2.4748E2 / T + 0.237040
+        x = -2.0064E9 / (T*T*T) + 1.9018E6 / (T*T) + 2.4748E2 / T + 0.237040
     } else {
         panic("[FromTemperature] Color temperature out of range!")
     }
