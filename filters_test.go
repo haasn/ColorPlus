@@ -46,6 +46,9 @@ var tests = []testPair{
 
     // Swap
     testPair{namedFilter{Swap{AB, BC}, "Swap{AB, BC}"}, XYZ{0.2, 0.4, 0.8}, XYZ{0.4, 0.8, 0.2}},
+
+    // Grayscale
+    testPair{nGrayscale, RGB{0.2, 0.4, 0.8, SpaceZero}, RGB{0.38636, 0.38636, 0.38636, SpaceZero}},
 }
 
 func TestFilters(t *testing.T) {

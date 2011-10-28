@@ -51,9 +51,22 @@ func (s Swap) GetTriple() FilterTriple {
                 case AB: a, b = b, a
                 case AC: a, c = c, a
                 case BC: b, c = c, b
-                default: panic("Invalid swap mode!")
+                default: panic("[Swap] Invalid swap mode!")
             }
         }
         return in.Make(a, b, c)
     }
 }
+
+// Grayscale (Note: Only works on RGB because XYZ has unknown white point)
+var Grayscale = FilterTriple(func(in Triple) Triple {
+    switch x := in.(type) {
+        case RGB:
+            luma := Luminance(in)
+
+            return in.Make(luma, luma, luma)
+        default:
+            panic("[Grayscale] Unsupported color type!")
+    }
+    return nil
+})

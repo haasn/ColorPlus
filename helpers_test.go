@@ -29,4 +29,5 @@ var (
     nSRGBDec = namedFilter{SRGBCurve{}.GetDecoder(), "SRGBCurve.GetDecoder()"}
     nLStarEnc = namedFilter{LStarCurve{LStarActual}.GetEncoder(), "LStarCurve{LStarActual}.GetEncoder()"}
     nLStarDec = namedFilter{LStarCurve{LStarActual}.GetDecoder(), "LStarCurve{LStarActual}.GetDecoder()"}
+    nGrayscale = namedFilter{Grayscale, "Grayscale"}
 )
