@@ -2,16 +2,17 @@ package colorplus
 
 import "math"
 
-// Default filters
-var Identity = FilterSingle(func(in float64) float64 { // returns argument unmodified
+// Returns argument unmodified
+var Identity = FilterSingle(func(in float64) float64 {
     return in
 })
 
-var Invert = FilterSingle(func(in float64) float64 { // inverts an argument on the scale 0-1
+// Inverts the input on the scale 0-1
+var Invert = FilterSingle(func(in float64) float64 {
     return 1 - in
 })
 
-// Some simple filter providers
+// Clamp the value to a given range
 type Clamp struct {
     Lower, Upper float64
 }

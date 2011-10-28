@@ -69,8 +69,8 @@ var (
     // some aliases
     SpaceNone = SpaceZero
 
-    SpaceHDTV = SpaceFromExisting(SpaceBT709, LStarCurve{LStarActual})
-    SpacesRGB = SpaceFromExisting(SpaceBT709, SRGBCurve{})
+    SpaceHDTV = SpaceFromExisting(SpaceBT709, LStarActual)
+    SpacesRGB = SpaceFromExisting(SpaceBT709, SRGBCurve)
     SpacescRGB = SpacesRGB
     SpacemadVR = SpaceFromExisting(SpaceBT709, PurePowerCurve{2.2})
 

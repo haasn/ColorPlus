@@ -13,18 +13,15 @@ type PurePowerCurve struct {
     Gamma float64
 }
 
-type SRGBCurve struct {}
+type sRGBCurve byte
 
-type LStarCurve struct {
-    Mode LStarMode
-}
-
-// L* mode determines whether to follow the intent of the CIE Standard, or its written value
-type LStarMode bool
+// L* mode determines whether to follow the intent of the CIE Standard, or its written value, represented here as bool
+type LStarCurve bool
 
 const (
-    LStarActual LStarMode = true
-    LStarIntent LStarMode = false
+    LStarActual LStarCurve = true
+    LStarIntent LStarCurve = false
+    SRGBCurve sRGBCurve = 0
 )
 
 // Implementations
@@ -48,7 +45,7 @@ func (ppc PurePowerCurve) GetDecoder() FilterSingle {
 }
 
 // sRGB curve is a two-part curve with a linear segment for blacks
-func (_ SRGBCurve) GetEncoder() FilterSingle {
+func (_ sRGBCurve) GetEncoder() FilterSingle {
     return func(in float64) float64 {
         if (in > 0.0031308) {
             return math.Pow(in, 1 / 2.4) * 1.055 - 0.055
@@ -57,7 +54,7 @@ func (_ SRGBCurve) GetEncoder() FilterSingle {
     }
 }
 
-func (_ SRGBCurve) GetDecoder() FilterSingle {
+func (_ sRGBCurve) GetDecoder() FilterSingle {
     return func(in float64) float64 {
         if (in > 0.04045) {
             return math.Pow((in + 0.055) / 1.055, 2.4)
@@ -91,7 +88,7 @@ func (ls LStarCurve) GetDecoder() FilterSingle {
 }
 
 func (ls LStarCurve) params() (E, K float64) {
-    if (ls.Mode == LStarActual) {
+    if bool(ls) {
         E, K = 0.008856, 903.3
     } else {
         E, K = 216.0 / 24389.0, 24389.0 / 27.0

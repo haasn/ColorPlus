@@ -54,9 +54,9 @@ var (
     nInvert = namedFilter{Invert, "Invert"}
     nXYZtoYxy = namedFilter{XYZtoYxy, "XYZtoYxy"}
     nYxytoXYZ = namedFilter{YxytoXYZ, "YxytoXYZ"}
-    nSRGBEnc = namedFilter{SRGBCurve{}.GetEncoder(), "SRGBCurve.GetEncoder()"}
-    nSRGBDec = namedFilter{SRGBCurve{}.GetDecoder(), "SRGBCurve.GetDecoder()"}
-    nLStarEnc = namedFilter{LStarCurve{LStarActual}.GetEncoder(), "LStarCurve{LStarActual}.GetEncoder()"}
-    nLStarDec = namedFilter{LStarCurve{LStarActual}.GetDecoder(), "LStarCurve{LStarActual}.GetDecoder()"}
+    nSRGBEnc = namedFilter{SRGBCurve.GetEncoder(), "SRGBCurve.GetEncoder()"}
+    nSRGBDec = namedFilter{SRGBCurve.GetDecoder(), "SRGBCurve.GetDecoder()"}
+    nLStarEnc = namedFilter{LStarActual.GetEncoder(), "LStarCurve{LStarActual}.GetEncoder()"}
+    nLStarDec = namedFilter{LStarActual.GetDecoder(), "LStarCurve{LStarActual}.GetDecoder()"}
     nGrayscale = namedFilter{Grayscale, "Grayscale"}
 )
