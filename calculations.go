@@ -28,6 +28,60 @@ func FromTemperature(T float64) Yxy {
     return Yxy{1, x, y}
 }
 
+// XYZ encoding/decoding
+type XYZSpace Space // Regular Space will auto-apply the gamma transfer function as well
+
+func (c XYZSpace) GetEncoder() FilterTriple {
+    M := matrixFromColorSpace(Space(c)).Inverse()
+
+    return func(in Triple) Triple {
+        var x XYZ
+        switch v := in.(type) {
+            case XYZ: x = v
+            case Yxy: x = v.ToXYZ()
+            default: panic("[XYZSpace.GetEncoder] Unsupported color type!")
+        }
+
+        res := M.Mul1x3(matrix1x3{x.X, x.Y, x.Z})
+
+        return RGB{res.M1, res.M2, res.M3}
+    }
+}
+
+func (c XYZSpace) GetDecoder() FilterTriple {
+    M := matrixFromColorSpace(Space(c))
+
+    return func(in Triple) Triple {
+        switch v := in.(type) {
+            case RGB:
+                res := M.Mul1x3(matrix1x3{v.R, v.G, v.B})
+                return XYZ{res.M1, res.M2, res.M3}
+            default: panic("[XYZSpace.GetDecoder] Unsupported color type!")
+        }
+
+        return nil
+    }
+}
+
+// Space encoding/decoding, with gamma
+func (c Space) GetEncoder() FilterTriple {
+    if (c.Gamma == nil) {
+        return XYZSpace(c).GetEncoder()
+    } else {
+        return Chain(XYZSpace(c).GetEncoder(), c.Gamma.GetEncoder()).GetTriple()
+    }
+    return nil // Why does the compiler need a return here?
+}
+
+func (c Space) GetDecoder() FilterTriple {
+    if (c.Gamma == nil) {
+        return XYZSpace(c).GetDecoder()
+    } else {
+        return Chain(c.Gamma.GetDecoder(), XYZSpace(c).GetDecoder()).GetTriple()
+    }
+    return nil
+}
+
 // Custom matrix logic
 type matrix1x3 struct {
     M1, M2, M3 float64

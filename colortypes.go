@@ -42,7 +42,6 @@ func (_ Yxy) Make(a, b, c float64) Triple {
 // RGB (Red, Green, Blue)
 type RGB struct {
     R, G, B float64
-    ColorSpace Space
 }
 
 func (in RGB) Get() (a, b, c float64) {
@@ -50,5 +49,5 @@ func (in RGB) Get() (a, b, c float64) {
 }
 
 func (in RGB) Make(a, b, c float64) Triple {
-    return RGB{a, b, c, in.ColorSpace}
+    return RGB{a, b, c}
 }

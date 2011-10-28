@@ -48,7 +48,14 @@ var tests = []testPair{
     testPair{namedFilter{Swap{AB, BC}, "Swap{AB, BC}"}, XYZ{0.2, 0.4, 0.8}, XYZ{0.4, 0.8, 0.2}},
 
     // Grayscale
-    testPair{nGrayscale, RGB{0.2, 0.4, 0.8, SpaceZero}, RGB{0.38636, 0.38636, 0.38636, SpaceZero}},
+    testPair{nGrayscale, RGB{0.2, 0.4, 0.8}, RGB{0.38636, 0.38636, 0.38636}},
+
+    // XYZ Encoding/Decoding
+    testPair{namedFilter{Chain(SpacesRGB.GetDecoder(), SpacesRGB.GetEncoder()), "Chain(SpacesRGB.GetDecoder(), SpacesRGB.GetEncoder())"},
+        RGB{1.0, 1.0, 1.0}, RGB{1.0, 1.0, 1.0}},
+
+    // White point check
+    testPair{namedFilter{SpacesRGB.GetDecoder(), "SpacesRGB.GetDecoder()"}, RGB{1.0, 1.0, 1.0}, PointD65.ToXYZ()},
 }
 
 func TestFilters(t *testing.T) {

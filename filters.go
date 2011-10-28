@@ -12,6 +12,11 @@ type FilterSingleProvider interface {
     GetSingle() FilterSingle
 }
 
+type CodingProvider interface { // Like curve provider but for triples
+    GetEncoder() FilterTriple
+    GetDecoder() FilterTriple
+}
+
 // Two filters chained together
 type filterTripleChain []interface{} // can be triple or single
 type filterSingleChain []FilterSingleProvider
