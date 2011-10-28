@@ -44,3 +44,11 @@ type RGB struct {
     R, G, B float64
     ColorSpace Space
 }
+
+func (in RGB) Get() (a, b, c float64) {
+    return in.R, in.G, in.B
+}
+
+func (in RGB) Make(a, b, c float64) Triple {
+    return RGB{a, b, c, in.ColorSpace}
+}
