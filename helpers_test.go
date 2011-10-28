@@ -6,7 +6,7 @@ import (
 )
 
 // fuzzy comparison for color triples
-func FuzzyCompare(x, y Triple, allow float64) bool {
+func FuzzyCompareTriple(x, y Triple, allow float64) bool {
 	xa, xb, xc := x.Get()
 	ya, yb, yc := y.Get()
 
@@ -15,8 +15,18 @@ func FuzzyCompare(x, y Triple, allow float64) bool {
 	return (erra < allow) && (errb < allow) && (errc < allow)
 }
 
-func FuzzyAssert(in interface{}, res, want Triple, allow float64, name string, t *testing.T) {
-    if (!FuzzyCompare(res, want, allow)) {
+func FuzzyCompareSingle(x, y float64, allow float64) bool {
+    return math.Abs(x - y) < allow
+}
+
+func FuzzyAssertTriple(in interface{}, res, want Triple, allow float64, name string, t *testing.T) {
+    if (!FuzzyCompareTriple(res, want, allow)) {
+        t.Errorf("%s(%v) = %v, want %v.", name, in, res, want)
+    }
+}
+
+func FuzzyAssertSingle(in interface{}, res, want float64, allow float64, name string, t *testing.T) {
+    if (!FuzzyCompareSingle(res, want, allow)) {
         t.Errorf("%s(%v) = %v, want %v.", name, in, res, want)
     }
 }

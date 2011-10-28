@@ -1,5 +1,7 @@
 package colorplus
 
+import "math"
+
 type Space struct {
     Red, Green, Blue, White XYZ // White().Y doubles as reference luminosity
     Gamma CurveProvider // optional and may be nil
@@ -12,6 +14,17 @@ func SpaceFromxy(rx, ry, gx, gy, bx, by float64, White Yxy, g CurveProvider) Spa
 
 func SpaceFromExisting(space Space, g CurveProvider) Space {
     return Space{space.Red, space.Green, space.Blue, space.White, g}
+}
+
+// Area calculation, useful for comparing sizes
+func (s Space) Area() float64 {
+    r, g, b := s.Red.ToYxy(), s.Green.ToYxy(), s.Blue.ToYxy()
+
+    x := math.Sqrt(math.Pow(g.x - r.x, 2) + math.Pow(g.y - r.y, 2))
+    y := math.Sqrt(math.Pow(g.x - b.x, 2) + math.Pow(g.y - b.y, 2))
+    z := math.Sqrt(math.Pow(r.x - b.x, 2) + math.Pow(r.y - b.y, 2))
+
+    return math.Sqrt((x + y - z) * (x - y + z) * (y + z - x) * (x + y + z)) / 4
 }
 
 // Default white points
