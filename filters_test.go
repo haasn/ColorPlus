@@ -54,9 +54,6 @@ var tests = []testPair{
 func TestFilters(t *testing.T) {
     for _, tp := range tests {
         res := Chain(tp.nfilter.filter).GetTriple()(tp.input) // re-using Chain() for the type assertion logic
-
-        if (!FuzzyCompare(res, tp.output, allow)) {
-            t.Errorf("%s(%v) = %v, want %v.", tp.nfilter.name, tp.input, res, tp.output)
-        }
+        FuzzyAssert(tp.input, res, tp.output, allow, tp.nfilter.name, t)
     }
 }

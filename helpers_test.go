@@ -1,6 +1,9 @@
 package colorplus
 
-import "math"
+import (
+    "math"
+    "testing"
+)
 
 // fuzzy comparison for color triples
 func FuzzyCompare(x, y Triple, allow float64) bool {
@@ -10,6 +13,12 @@ func FuzzyCompare(x, y Triple, allow float64) bool {
 	erra, errb, errc := math.Abs(xa-ya), math.Abs(xb-yb), math.Abs(xc-yc)
 
 	return (erra < allow) && (errb < allow) && (errc < allow)
+}
+
+func FuzzyAssert(in, res, want Triple, allow float64, name string, t *testing.T) {
+    if (!FuzzyCompare(res, want, allow)) {
+        t.Errorf("%s(%v) = %v, want %v.", name, in, res, want)
+    }
 }
 
 const allow = 0.00001
