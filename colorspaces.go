@@ -51,7 +51,7 @@ var (
     SpaceSECAM = SpaceFromxy(0.64, 0.33, 0.29, 0.60, 0.15, 0.06, PointD65, PurePowerCurve{2.8})
     SpaceAdobeWideRGB = SpaceFromxy(0.735, 0.265, 0.115, 0.826, 0.157, 0.018, PointD50, nil)
     SpaceCIE1931 = SpaceFromxy(0.7347, 0.2653, 0.2738, 0.7174, 0.1666, 0.0089, PointE, nil)
-    SpaceACES = SpaceFromxy(0.73470, 0.26530, 0, 1, 0.00010, -0.07700, 0.32168, 0.33767, nil)
+    SpaceACES = SpaceFromxy(0.73470, 0.26530, 0, 1, 0.00010, -0.07700, Yxy{1, 0.32168, 0.33767}, nil)
 
     // some aliases
     SpaceNone = SpaceZero
