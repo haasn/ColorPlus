@@ -15,7 +15,7 @@ func FuzzyCompare(x, y Triple, allow float64) bool {
 	return (erra < allow) && (errb < allow) && (errc < allow)
 }
 
-func FuzzyAssert(in, res, want Triple, allow float64, name string, t *testing.T) {
+func FuzzyAssert(in interface{}, res, want Triple, allow float64, name string, t *testing.T) {
     if (!FuzzyCompare(res, want, allow)) {
         t.Errorf("%s(%v) = %v, want %v.", name, in, res, want)
     }
