@@ -12,7 +12,7 @@ func Luminance(in Triple) float64 {
 }
 
 // Calculate a white point from a color temperature
-func FromTemperature(T float64) Yxy {
+func FromTemperature(T float64) XYZ {
     var x float64
 
     if (4000 <= T && T <= 7000) {
@@ -25,7 +25,43 @@ func FromTemperature(T float64) Yxy {
 
     y := -3 * x * x + 2.87 * x - 0.275
 
-    return Yxy{1, x, y}
+    return Yxy{1, x, y}.ToXYZ()
+}
+
+// Chromatic adaptation
+type ChromaticAdapter struct {
+    Source, Destination XYZ
+    Mode ScalingMode
+}
+
+type ScalingMode matrix3x3
+
+var (
+    Linear = ScalingMode{1, 0, 0, 0, 1, 0, 0, 0, 1}
+    Bradford = ScalingMode{0.8951000, 0.2664000, -0.1614000, -0.7502000, 1.7135000, 0.0367000, 0.0389000, -0.0685000, 1.0296000} // recommended
+    VonKries = ScalingMode{0.4002400, 0.7076000, -0.0808100, -0.2263000, 1.1653200, 0.0457000, 0.0000000, 0.0000000, 0.9182200}
+)
+
+func (ca ChromaticAdapter) GetTriple() FilterTriple {
+    forw := matrix3x3(ca.Mode)
+    back := forw.Inverse()
+
+    cs := forw.Mul1x3(matrix1x3{ca.Source.X, ca.Source.Y, ca.Source.Z})
+    cd := forw.Mul1x3(matrix1x3{ca.Destination.X, ca.Destination.Y, ca.Destination.Z})
+
+    transform := back.Mul3x3(matrix3x3{cd.M1 / cs.M1, 0, 0, 0, cd.M2 / cs.M2, 0, 0, 0, cd.M3 / cs.M3}).Mul3x3(forw)
+
+    return func(in Triple) Triple {
+        var x XYZ
+        switch v := in.(type) {
+            case XYZ: x = v
+            case Yxy: x = v.ToXYZ()
+            default: panic("[ChromaticAdapter] Unsupported color type!")
+        }
+        res := transform.Mul1x3(matrix1x3{x.X, x.Y, x.Z})
+
+        return XYZ{res.M1, res.M2, res.M3}
+    }
 }
 
 // XYZ encoding/decoding

@@ -8,8 +8,8 @@ type Space struct {
 }
 
 // Functions for generating color spaces from xy values
-func SpaceFromxy(rx, ry, gx, gy, bx, by float64, White Yxy, g CurveProvider) Space {
-    return Space{Yxy{1, rx, ry}.ToXYZ(), Yxy{1, gx, gy}.ToXYZ(), Yxy{1, bx, by}.ToXYZ(), White.ToXYZ(), g}
+func SpaceFromxy(rx, ry, gx, gy, bx, by float64, White XYZ, g CurveProvider) Space {
+    return Space{Yxy{1, rx, ry}.ToXYZ(), Yxy{1, gx, gy}.ToXYZ(), Yxy{1, bx, by}.ToXYZ(), White, g}
 }
 
 func SpaceFromExisting(space Space, g CurveProvider) Space {
@@ -29,27 +29,27 @@ func (s Space) Area() float64 {
 
 // Default white points
 var (
-    PointA = Yxy{1, 0.44757, 0.40735}
-    PointB = Yxy{1, 0.34842, 0.35161}
-    PointC = Yxy{1, 0.31006, 0.31616}
-    PointD50 = Yxy{1, 0.34567, 0.35850}
-    PointD55 = Yxy{1, 0.33242, 0.34743}
-    PointD65 = Yxy{1, 0.31272661468101209, 0.32902313032606195}
-    PointD75 = Yxy{1, 0.29902, 0.31485}
-    PointE = Yxy{1, 1.0 / 3.0, 1.0 / 3.0}
-    PointF1 = Yxy{1, 0.31310, 0.33727}
-    PointF2 = Yxy{1, 0.372080, 0.37529}
-    PointF3 = Yxy{1, 0.40910, 0.39430}
-    PointF4 = Yxy{1, 0.44018, 0.40329}
-    PointF5 = Yxy{1, 0.31379, 0.34531}
-    PointF6 = Yxy{1, 0.37790, 0.38835}
-    PointF7 = Yxy{1, 0.31292, 0.32933}
-    PointF8 = Yxy{1, 0.34588, 0.35875}
-    PointF9 = Yxy{1, 0.37417, 0.37281}
-    PointF10 = Yxy{1, 0.34609, 0.35986}
-    PointF11 = Yxy{1, 0.38052, 0.37713}
-    PointF12 = Yxy{1, 0.43695, 0.40441}
-    PointZero = Yxy{1, 0, 0}
+    PointA = Yxy{1, 0.44757, 0.40735}.ToXYZ()
+    PointB = Yxy{1, 0.34842, 0.35161}.ToXYZ()
+    PointC = Yxy{1, 0.31006, 0.31616}.ToXYZ()
+    PointD50 = Yxy{1, 0.34567, 0.35850}.ToXYZ()
+    PointD55 = Yxy{1, 0.33242, 0.34743}.ToXYZ()
+    PointD65 = Yxy{1, 0.31272661468101209, 0.32902313032606195}.ToXYZ()
+    PointD75 = Yxy{1, 0.29902, 0.31485}.ToXYZ()
+    PointE = Yxy{1, 1.0 / 3.0, 1.0 / 3.0}.ToXYZ()
+    PointF1 = Yxy{1, 0.31310, 0.33727}.ToXYZ()
+    PointF2 = Yxy{1, 0.372080, 0.37529}.ToXYZ()
+    PointF3 = Yxy{1, 0.40910, 0.39430}.ToXYZ()
+    PointF4 = Yxy{1, 0.44018, 0.40329}.ToXYZ()
+    PointF5 = Yxy{1, 0.31379, 0.34531}.ToXYZ()
+    PointF6 = Yxy{1, 0.37790, 0.38835}.ToXYZ()
+    PointF7 = Yxy{1, 0.31292, 0.32933}.ToXYZ()
+    PointF8 = Yxy{1, 0.34588, 0.35875}.ToXYZ()
+    PointF9 = Yxy{1, 0.37417, 0.37281}.ToXYZ()
+    PointF10 = Yxy{1, 0.34609, 0.35986}.ToXYZ()
+    PointF11 = Yxy{1, 0.38052, 0.37713}.ToXYZ()
+    PointF12 = Yxy{1, 0.43695, 0.40441}.ToXYZ()
+    PointZero = Yxy{1, 0, 0}.ToXYZ()
 )
 
 // Default color spaces
@@ -64,7 +64,7 @@ var (
     SpaceSECAM = SpaceFromxy(0.64, 0.33, 0.29, 0.60, 0.15, 0.06, PointD65, PurePowerCurve{2.8})
     SpaceAdobeWideRGB = SpaceFromxy(0.735, 0.265, 0.115, 0.826, 0.157, 0.018, PointD50, nil)
     SpaceCIE1931 = SpaceFromxy(0.7347, 0.2653, 0.2738, 0.7174, 0.1666, 0.0089, PointE, nil)
-    SpaceACES = SpaceFromxy(0.73470, 0.26530, 0, 1, 0.00010, -0.07700, Yxy{1, 0.32168, 0.33767}, nil)
+    SpaceACES = SpaceFromxy(0.73470, 0.26530, 0, 1, 0.00010, -0.07700, Yxy{1, 0.32168, 0.33767}.ToXYZ(), nil)
 
     // some aliases
     SpaceNone = SpaceZero

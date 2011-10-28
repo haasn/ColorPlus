@@ -55,7 +55,10 @@ var tests = []testPair{
         RGB{1.0, 1.0, 1.0}, RGB{1.0, 1.0, 1.0}},
 
     // White point check
-    testPair{namedFilter{SpacesRGB.GetDecoder(), "SpacesRGB.GetDecoder()"}, RGB{1.0, 1.0, 1.0}, PointD65.ToXYZ()},
+    testPair{namedFilter{SpacesRGB.GetDecoder(), "SpacesRGB.GetDecoder()"}, RGB{1.0, 1.0, 1.0}, PointD65},
+
+    // Chromatic adaptation
+    testPair{namedFilter{ChromaticAdapter{PointD65, PointD50, Bradford}, "ChromaticAdapter{PointD65, PointD50, Bradford}"}, PointD65, PointD50},
 }
 
 func TestFilters(t *testing.T) {

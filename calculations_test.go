@@ -3,7 +3,7 @@ package colorplus
 import "testing"
 
 func TestCalculations(t *testing.T) {
-    FuzzyAssertTriple(6504, FromTemperature(6504), PointD65, allow * 10, "FromTemperature", t)
+    FuzzyAssertTriple(6503.6, FromTemperature(6503.6), PointD65, allow * 100, "FromTemperature", t) // not as precise, lots of conversions
     FuzzyAssertSingle("", SpacesRGB.Area(), 0.11205, allow, "SpacesRGB.Area", t)
 
     // Matrix testing
