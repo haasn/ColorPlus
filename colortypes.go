@@ -3,7 +3,6 @@ package colorplus
 // Usage notes: For the sake of compatibility, all of these structures are assumed to be normalized into the range 0-1
 // The functions which convert to/from “dumb” color types (like image.ColorRGBA) will perform pullup as appropriate
 // Similarly, the functions to Normalize/Denormalize XYZ values will do this as well
-// If a struct is marked with a ', it is to be considered non-linear
 
 // Some generic interfaces for dealing with n-channeled colors
 type Triple interface {
@@ -38,4 +37,10 @@ func (in Yxy) Get() (a, b, c float64) {
 
 func (_ Yxy) Make(a, b, c float64) Triple {
     return Yxy{a, b, c}
+}
+
+// RGB (Red, Green, Blue)
+type RGB struct {
+    R, G, B float64
+    ColorSpace Space
 }
