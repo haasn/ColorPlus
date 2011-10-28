@@ -19,6 +19,16 @@ func FuzzyCompareSingle(x, y float64, allow float64) bool {
     return math.Abs(x - y) < allow
 }
 
+func FuzzyCompareMatrix3x3(x, y matrix3x3, allow float64) bool {
+    err := matrix3x3{math.Abs(x.M11 - y.M11), math.Abs(x.M12 - y.M12), math.Abs(x.M13 - y.M13),
+                     math.Abs(x.M21 - y.M21), math.Abs(x.M22 - y.M22), math.Abs(x.M23 - y.M23),
+                     math.Abs(x.M31 - y.M31), math.Abs(x.M32 - y.M32), math.Abs(x.M33 - y.M33)}
+    
+    return (err.M11 < allow) && (err.M12 < allow) && (err.M13 < allow) &&
+           (err.M21 < allow) && (err.M22 < allow) && (err.M23 < allow) &&
+           (err.M31 < allow) && (err.M32 < allow) && (err.M33 < allow)
+}
+
 func FuzzyAssertTriple(in interface{}, res, want Triple, allow float64, name string, t *testing.T) {
     if (!FuzzyCompareTriple(res, want, allow)) {
         t.Errorf("%s(%v) = %v, want %v.", name, in, res, want)
