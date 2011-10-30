@@ -69,6 +69,9 @@ var tests = []testPair{
     testPair{namedFilter{Pullup{16, true}, "Pullup{16, true}"}, XYZ{1, 0, 0.5}, XYZ{65535, 0, 32767.5}},
     testPair{namedFilter{Pullup{16, false}, "Pullup{16, false}"}, XYZ{1, 0, 1}, XYZ{60160, 4096, 60160}},
     testPair{namedFilter{Pullup{10, false}, "Pullup{10, false}"}, XYZ{1, 0, 1}, XYZ{940, 64, 940}},
+
+    // Some more XYZ encoding/decoding
+    testPair{namedFilter{Chain(SpacesRGB.GetDecoder(), XYZSpace(SpaceProPhotoRGB).GetEncoder(), SRGBCurve.GetEncoder()), "Chain1"}, RGB{1, 0, 0}, RGB{0.735224, 0.343268, 0.165794}},
 }
 
 func TestFilters(t *testing.T) {

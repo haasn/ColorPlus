@@ -12,7 +12,7 @@ func (in RGB) RGBA() (r, g, b, a uint32) {
 
 func ApplyToImage(i *image.RGBA, f FilterTripleProvider) {
     w, h := i.Rect.Max.X, i.Rect.Max.Y
-    filter := Pipeline(32, true, Chain(f, Clamp{0, 1})).GetTriple()
+    filter := Pipeline(16, true, Chain(f, Clamp{0, 1})).GetTriple()
 
     for x := 0; x < w; x++ {
         for y := 0; y < h; y++ {
