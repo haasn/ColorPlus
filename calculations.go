@@ -28,6 +28,29 @@ func FromTemperature(T float64) XYZ {
     return Yxy{1, x, y}.ToXYZ()
 }
 
+// Pullup/pulldown
+func calcLimits(depth uint, full bool) (bot, lim float64) {
+    if full {
+        if depth == 0 {
+            return 0, 1
+        }
+
+        return 0, float64((uint(1) << depth) - 1)
+    }
+    
+    if depth == 0 { // floating point
+        return 16.0 / 255.0, 219.0 / 255.0
+    }
+
+    bot = float64(uint(1) << (depth - 4))
+
+    if depth < 8 { // we lose precision here
+        return bot, float64((uint(235) >> (8 - depth))) - bot
+    }
+
+    return bot, float64 ((uint(235) << (depth - 8))) - bot
+}
+
 // Chromatic adaptation
 type ChromaticAdapter struct {
     Source, Destination XYZ

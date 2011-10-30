@@ -59,6 +59,16 @@ var tests = []testPair{
 
     // Chromatic adaptation
     testPair{namedFilter{ChromaticAdapter{PointD65, PointD50, Bradford}, "ChromaticAdapter{PointD65, PointD50, Bradford}"}, PointD65, PointD50},
+
+    // Pullup / pulldown
+    testPair{namedFilter{Pullup{8, true}, "Pullup{8, true}"}, XYZ{1, 0, 0.5}, XYZ{255, 0, 127.5}},
+    testPair{namedFilter{Pulldown{8, true}, "Pulldown{8, true}"}, XYZ{255, 0, 127.5}, XYZ{1, 0, 0.5}},
+    testPair{namedFilter{Pullup{8, false}, "Pullup{8, false}"}, XYZ{1, 0, 1}, XYZ{235, 16, 235}},
+    testPair{namedFilter{Pulldown{8, false}, "Pulldown{8, false}"}, XYZ{235, 16, 235}, XYZ{1, 0, 1}},
+    
+    testPair{namedFilter{Pullup{16, true}, "Pullup{16, true}"}, XYZ{1, 0, 0.5}, XYZ{65535, 0, 32767.5}},
+    testPair{namedFilter{Pullup{16, false}, "Pullup{16, false}"}, XYZ{1, 0, 1}, XYZ{60160, 4096, 60160}},
+    testPair{namedFilter{Pullup{10, false}, "Pullup{10, false}"}, XYZ{1, 0, 1}, XYZ{940, 64, 940}},
 }
 
 func TestFilters(t *testing.T) {

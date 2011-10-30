@@ -71,3 +71,28 @@ var Grayscale = FilterTriple(func(in Triple) Triple {
     }
     return nil
 })
+
+// Range pullup
+type Pullup struct {
+    Depth uint
+    FullRange bool // false = limited range
+}
+
+func (p Pullup) GetSingle() FilterSingle {
+    bot, lim := calcLimits(p.Depth, p.FullRange)
+
+    return func(in float64) float64 {
+        return in * lim + bot
+    }
+}
+
+// Range pulldown
+type Pulldown Pullup
+
+func (p Pulldown) GetSingle() FilterSingle {
+    bot, lim := calcLimits(p.Depth, p.FullRange)
+
+    return func(in float64) float64 {
+        return (in - bot) / lim
+    }
+}
