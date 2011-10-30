@@ -5,7 +5,7 @@ import "math"
 // 3D Lookup table, designed for interop with the 3DL2 and 3DLUT specifications
 // TODO: Redesign this from scratch to conform better to the Go style
 type LUT3D struct {
-    Signature  [4]byte          // file signature; must be: “3DL2” as encoded using the ASCII standard (0x33444C32)
+    Signature [4]byte           // file signature; must be: “3DL2” as encoded using the ASCII standard (0x33444C32)
     FileVersion int32           // file format version number (currently 2)
     ProgramName [32]byte        // name of the program that created the file
     ProgramVersion int64        // version number of the program that created the file
@@ -178,8 +178,18 @@ func (lut *LUT3D) Assign(filter FilterTripleProvider, pipeline bool) {
         f = filter.GetTriple()
     }
 
-    // TODO: Actually assign
-    lut.SetOutputRaw(0, f(RGB{255, 0, 0}))
+    // Assign, TODO: multi-thread
+    maxa, maxb, maxc := 1 << uint(lut.InputBitDepth[0]), 1 << uint(lut.InputBitDepth[1]), 1 << uint(lut.InputBitDepth[2])
+    pos := 0
+
+    for c := 0; c < maxc; c++ {
+        for b := 0; b < maxb; b++ {
+            for a := 0; a < maxa; a++ {
+                lut.SetOutputRaw(pos, f(RGB{float64(c), float64(b), float64(a)}))
+                pos += 3
+            }
+        }
+    }
 }
 
 // Functions for internal logic
