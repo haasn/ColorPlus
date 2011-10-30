@@ -51,8 +51,3 @@ func (in RGB) Get() (a, b, c float64) {
 func (in RGB) Make(a, b, c float64) Triple {
     return RGB{a, b, c}
 }
-
-// Our RGB type can implement image.Color - note that colors must already be pulled up as appropriate
-func (in RGB) RGBA() (r, g, b, a uint32) {
-    return uint32(in.R), uint32(in.G), uint32(in.B), 0xFFFF
-}
