@@ -28,7 +28,7 @@ var tests = []testPair{
     // Gamma transfer functions
     testPair{namedFilter{PurePowerCurve{2.2}.GetDecoder(), "PurePowerCurve{2.2}.GetDecoder()"},
         XYZ{0.2, 0, -1}, XYZ{0.028991, 0, 0}},
-    
+
     testPair{namedFilter{PurePowerCurve{2.2}.GetEncoder(), "PurePowerCurve{2.2}.GetEncoder()"},
         XYZ{0.2, 0, -1}, XYZ{0.481156, 0, 0}},
 
@@ -39,7 +39,7 @@ var tests = []testPair{
     // Round trip 1
     testPair{namedFilter{Chain(Identity, Invert, Invert, nLStarEnc.filter, nLStarDec.filter),"RoundTrip1"},
         XYZ{0.2, 0.5, 0.8}, XYZ{0.2, 0.5, 0.8}},
-    
+
     // Clamp and scale
     testPair{namedFilter{Clamp{0, 1}, "Clamp{0, 1}"}, XYZ{-2, 0.3, 1.5}, XYZ{0, 0.3, 1}},
     testPair{namedFilter{Scale{0.2, 0.8}, "Scale{0.2, 0.8}"}, XYZ{0, 1, 0.5}, XYZ{0.2, 0.8, 0.5}},
@@ -65,7 +65,7 @@ var tests = []testPair{
     testPair{namedFilter{Pulldown{8, true}, "Pulldown{8, true}"}, XYZ{255, 0, 127.5}, XYZ{1, 0, 0.5}},
     testPair{namedFilter{Pullup{8, false}, "Pullup{8, false}"}, XYZ{1, 0, 1}, XYZ{235, 16, 235}},
     testPair{namedFilter{Pulldown{8, false}, "Pulldown{8, false}"}, XYZ{235, 16, 235}, XYZ{1, 0, 1}},
-    
+
     testPair{namedFilter{Pullup{16, true}, "Pullup{16, true}"}, XYZ{1, 0, 0.5}, XYZ{65535, 0, 32767.5}},
     testPair{namedFilter{Pullup{16, false}, "Pullup{16, false}"}, XYZ{1, 0, 1}, XYZ{60160, 4096, 60160}},
     testPair{namedFilter{Pullup{10, false}, "Pullup{10, false}"}, XYZ{1, 0, 1}, XYZ{940, 64, 940}},

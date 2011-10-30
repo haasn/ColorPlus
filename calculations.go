@@ -37,7 +37,7 @@ func calcLimits(depth uint, full bool) (bot, lim float64) {
 
         return 0, float64((uint(1) << depth) - 1)
     }
-    
+
     if depth == 0 { // floating point
         return 16.0 / 255.0, 219.0 / 255.0
     }
@@ -195,7 +195,7 @@ func matrixFromColorSpace(c Space) matrix3x3 {
     S := matrix3x3{c.Red.X, c.Green.X, c.Blue.X,
                    c.Red.Y, c.Green.Y, c.Blue.Y,
                    c.Red.Z, c.Green.Z, c.Blue.Z}.Inverse().Mul1x3(matrix1x3{c.White.X, c.White.Y, c.White.Z})
-    
+
     return matrix3x3{S.M1 * c.Red.X, S.M2 * c.Green.X, S.M3 * c.Blue.X,
                      S.M1 * c.Red.Y, S.M2 * c.Green.Y, S.M3 * c.Blue.Y,
                      S.M1 * c.Red.Z, S.M2 * c.Green.Z, S.M3 * c.Blue.Z}
