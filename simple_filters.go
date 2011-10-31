@@ -39,9 +39,9 @@ type Swap []SwapMode
 type SwapMode byte
 
 const (
-    AB SwapMode = 0
-    AC SwapMode = 1
-    BC SwapMode = 2
+    AB SwapMode = iota
+    AC
+    BC
 )
 
 func (s Swap) GetTriple() FilterTriple {
