@@ -13,4 +13,12 @@ func TestCalculations(t *testing.T) {
     if !FuzzyCompareMatrix3x3(a, m, allow) {
         t.Errorf("matrixFromColorSpace(SpacesRGB) = %v, want %v.", m, a)
     }
+
+    // Color space area testing
+    area := SpacesRGB.Area() / SpaceNTSC_53.Area()
+    want := 0.70828
+
+    if !FuzzyCompareSingle(area, want, allow) {
+        t.Errorf("SpacesRGB.Area() / SpaceNTSC_53.Area() = %v, want %v.", area, want)
+    }
 }
